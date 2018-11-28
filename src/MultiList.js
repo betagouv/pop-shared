@@ -23,7 +23,7 @@ export default class MultiListUmbrellaUmbrella extends React.Component {
     }
   };
 
-  componentWillMount() {
+  componentDidMount() {
     const { componentId } = this.props;
     try {
       if(location) {
@@ -104,7 +104,7 @@ class MultiListUmbrella extends React.Component {
   componentWillMount() {
     const { location, componentId, defaultSelected } = this.props;
     this.updateInternalQuery("");
-    const values = queryString.parse(location.search);
+    const values = queryString.parse(location);
     const field = componentId;
     if (values[field]) {
       const str = values[field].slice(1, -1);
