@@ -10,6 +10,8 @@ export default class MultiListUmbrellaUmbrella extends React.Component {
     collapse: true
   };
 
+  urlLocation = null;
+
   onListClicked = () => {
     this.onCollapseChange(!this.state.collapse);
   };
@@ -23,8 +25,19 @@ export default class MultiListUmbrellaUmbrella extends React.Component {
 
   componentWillMount() {
     const { componentId } = this.props;
-    const urlLocation = location ? location.search : this.props.location.search; // If window.location not defined use props
-    const values = queryString.parse(urlLocation);
+    try {
+      if(location) {
+        this.urlLocation = location.search;
+      } 
+    } catch (error) {
+      if(this.props.location) { // If window.location not defined use props
+        this.urlLocation = this.props.location.search;
+      } else {
+        throw new Error("location is not defined");
+      }
+    }
+
+    const values = queryString.parse(this.urlLocation);
     const field = componentId;
     if (values[field]) {
       this.onCollapseChange(false);
@@ -43,7 +56,6 @@ export default class MultiListUmbrellaUmbrella extends React.Component {
 
   render() {
     const style = this.props.show === false ? { display: "none" } : {};
-    const urlLocation = location ? location.search : this.props.location.search; // If window.location not defined use props
     return (
       <div className="multilist" style={style}>
         <div className="topBar" onClick={this.onListClicked}>
@@ -69,7 +81,7 @@ export default class MultiListUmbrellaUmbrella extends React.Component {
                 componentId={this.props.componentId}
                 sortByName={this.props.sortByName}
                 limit={this.props.limit}
-                location={urlLocation}
+                location={this.urlLocation}
               />
             </ReactiveComponent>
           ) : null}
