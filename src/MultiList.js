@@ -22,8 +22,9 @@ export default class MultiListUmbrellaUmbrella extends React.Component {
   };
 
   componentWillMount() {
+    const { location, componentId } = this.props;
     const values = queryString.parse(location.search);
-    const field = this.props.componentId;
+    const field = componentId;
     if (values[field]) {
       this.onCollapseChange(false);
     }
@@ -67,6 +68,7 @@ export default class MultiListUmbrellaUmbrella extends React.Component {
                 componentId={this.props.componentId}
                 sortByName={this.props.sortByName}
                 limit={this.props.limit}
+                location={this.props.location}
               />
             </ReactiveComponent>
           ) : null}
@@ -87,16 +89,17 @@ class MultiListUmbrella extends React.Component {
   }
 
   componentWillMount() {
+    const { location, componentId, defaultSelected } = this.props;
     this.updateInternalQuery("");
     const values = queryString.parse(location.search);
-    const field = this.props.componentId;
+    const field = componentId;
     if (values[field]) {
       const str = values[field].slice(1, -1);
       const selected = str.split(", ");
       this.updateExternalQuery(selected);
       this.setState({ selected });
-    } else if (this.props.defaultSelected) {
-      const selected = this.props.defaultSelected;
+    } else if (defaultSelected) {
+      const selected = defaultSelected;
       this.updateExternalQuery(selected);
       this.setState({ selected });
     }

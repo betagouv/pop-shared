@@ -1,3 +1,4 @@
 import MultiList from "./MultiList";
+import MultiListStyles from "./MultiList.css";
 
-export { MultiList };
+export { MultiList, MultiListStyles };
